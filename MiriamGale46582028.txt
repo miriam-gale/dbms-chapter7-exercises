@@ -1,0 +1,78 @@
+Name: Miriam Wepiya Gale
+ID: 46582028
+Cohort: B
+==========================================================
+Exercise: 7,24
+SQL Statement (Creating database): 
+CREATE DATABASE Projects;
+
+Output:
+ Query OK, 1 row affected (0.002 sec)
+
+SQL Statement(Using the Database): 
+USE Projects;
+
+Output:
+Database changed
+
+SQL Statement(Creating Department table): 
+CREATE TABLE Department(deptNo INT PRIMARY KEY, deptName VARCHAR(50) NOT NULL, mgrEmpNo INT NOT NULL); 
+
+Output: 
+Query OK, 0 rows affected (0.010 sec)
+
+SQL Statement(Creating Employee table):
+Constraint(a): sex must be one of the single characters 'M'or 'F'
+
+Constraint(b): position must be one of 'Manager', 'Team Leader', 'Analyst' or 'Software Developer'
+
+SQL Statement:
+CREATE TABLE Employee(empNo INT PRIMARY KEY, fName VARCHAR(20) NOT NULL, lName VARCHAR(50) NOT NULL, address VARCHAR(80) NOT NULL, DOB DATE NOT NULL, sex CHAR(1) NOT NULL CHECK(sex IN('M','F')), position VARCHAR (50) NOT NULL CHECK(position IN('Manager', 'Team Leader', 'Analyst', 'Software Developer')), deptNo INT NOT NULL, FOREIGN KEY(deptNo) REFERENCES Department(deptNo));
+
+Output: 
+Query OK, 0 rows affected (0.021 sec)
+
+SQL Statement: 
+ALTER TABLE Department ADD CONSTRAINT FK_Department_Manager FOREIGN KEY(mgrEmpNo) REFERENCES Employee(empNo);
+
+Output:
+ Query OK, 0 rows affected (0.034 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+SQL Statement(Creating Project table):
+CREATE TABLE Project(projNo INT PRIMARY KEY, projName VARCHAR(50) NOT NULL, deptNo INT NOT NULL, FOREIGN KEY(deptNo) REFERENCES Department(deptNo));
+
+Output:
+Query OK, 0 rows affected (0.010 sec)
+
+
+Constraint(c): hoursWorked must be an integer between 0 and 40
+
+SQL Statement:
+CREATE TABLE WorksOn(empNo INT, projNo INT, dateWorked DATE NOT NULL, hoursWorked INT NOT NULL CHECK(hoursWorked BETWEEN 0 AND 40), PRIMARY KEY(EmpNo, projNo, dateWorked), FOREIGN KEY(empNo) REFERENCES Employee(empNo), FOREIGN KEY(projNo) REFERENCES Project(projNo));
+
+Output:
+Query OK, 0 rows affected (0.015 sec)
+==========================================================
+
+Exercise 7.25
+SQL Statement:
+CREATE VIEW FemaleManagedProjects AS SELECT p.projNo, p.projName, p.deptNo FROM Project p JOIN Department d ON p.deptNo = d.deptNo JOIN Employee e  ON d.mgrEmpNo = e.empNo  WHERE e.sex = 'F' ORDER BY p.projNo;
+
+Output: 
+Query OK, 0 rows affected (0.030 sec)
+==========================================================
+
+Exercise 7.26
+SQL Statement: 
+CREATE VIEW EmployeeProjectHours AS SELECT e.empNO, e.fName, e.lName, p.projName, w.hoursWorked FROM Employee e JOIN WorksOn w ON e.empNo = w.empNo JOIN Project p on w.projNo = p.projNo;
+
+Output:
+Query OK, 0 rows affected (0.020 sec)
+==========================================================
+
+Exercise 7.27
+a.  Selects all the tuples and attrubutes from EmpProject View
+b.Displays the values projNo column from EmpProject where the projNo(projectaa Number) is 'SCCS'.
+c. Counts the number of rows in empProject where empNo is 'E1'
+d.Displays the  values  from empNo and  totalHours from the EmpProject View and it should group the results by the empNo 
