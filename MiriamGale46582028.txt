@@ -137,3 +137,17 @@ a.  Selects all the tuples and attributes from EmpProject View
 b.Displays the values projNo column from EmpProject where the projNo(project Number) is 'SCCS'.
 c. Counts the number of rows in EmpProject where empNo is 'E1'
 d.Displays the  values  of empNo and  totalHours from the EmpProject View and it should group the results by the empNo 
+====================================================================================================================
+
+Exercise 7.28
+* Maintaining the materialized view
+i. When a new row is inserted:If a new row inserted in the Part table has a partCost greater than £1000,  its partNo should be added to the materialised view but if it is less or  £1000, the materialised view will not be affected.
+
+ii. When a row is deleted: 
+If the deleted row from the Part table has a partCost greater than £1000, its respective partNo should be reomved from the materialised view because it no longer exists in the Part table. If the deleted row has a partCost of £1000 or less, the materialised view will not be affected.
+
+iii. When the cost of a part is updated:
+If the updated partCost changes from £1000 or less to more than £1000, the partNo should be added to the materialized view because it now satisfies the condition partCost > 1000. If the updated partCost changes from more than £1000 to £1000 or less, the partNo should be removed from the materialized view because it no longer satisfies the condition.
+
+*Maintaining the view without accessing the base table
+The materialized view can be maintained without accessing the Part table when the changed row already tells us whether the partCost is greater than £1000 or not. This is enough to decide whether the partNo should be added to or removed from the materialized view.
